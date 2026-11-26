@@ -1,0 +1,15 @@
+[project]
+name = "sweepqa"
+version = "0.1.0"
+description = "Log-sweep measurement: frequency response, THD, SNR, checked against a spec"
+requires-python = ">=3.11"
+dependencies = ["numpy", "scipy", "matplotlib", "sounddevice"]
+
+[project.optional-dependencies]
+dev = ["pytest"]
+
+[project.scripts]
+sweepqa = "sweepqa.cli:main"
+
+[tool.setuptools]
+packages = ["sweepqa"]

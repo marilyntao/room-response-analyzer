@@ -1,0 +1,28 @@
+# Used by `python -m sweepqa run specs/simulated_demo.toml --simulate` and by the tests.
+# The simulated device: -20 dB gain, 40 Hz high-pass, tanh distortion, 9.5 ms delay, white noise.
+[sweep]
+f1 = 20
+f2 = 20000
+duration_s = 6
+fs = 48000
+level_dbfs = -12
+
+[limits.frequency_response]
+mode = "relative"
+ref_hz = 1000
+f_low_3db_max = 60
+[[limits.frequency_response.bands]]
+f_lo = 100
+f_hi = 15000
+tol_db = 1.0
+
+[[limits.thd.bands]]
+f_lo = 100
+f_hi = 5000
+max_percent = 5.0
+
+[limits.snr]
+min_db = 50
+
+[limits.sanity]
+max_peak_dbfs = -3

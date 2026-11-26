@@ -1,0 +1,32 @@
+# ---- Limits for the Genelec 8330A in Studio B ------------------------------------------
+# Source of the 45 Hz figure: manufacturer datasheet (frequency response 45 Hz - 23 kHz, -6 dB;
+# max SPL 104 dB). A datasheet figure is not an in-room guarantee, so the in-room allowances
+# below are our own choices. The THD and SNR limits are NOT from the datasheet.
+[limits.frequency_response]
+mode = "relative"
+ref_hz = 300                 # mid-band reference inside our 20-1000 Hz sweep
+corner_db = 6                # datasheet gives the -6 dB point
+f_low_corner_max = 55        # datasheet 45 Hz + 10 Hz allowance for the room
+[[limits.frequency_response.bands]]
+f_lo = 45                    # datasheet lower limit: we judge flatness only above it
+f_hi = 150
+tol_db = 6.0                 # the band the EQ is meant to fix
+[[limits.frequency_response.bands]]
+f_lo = 150
+f_hi = 1000
+tol_db = 8.0                 # the EQ does not touch this band, so this is informational
+
+[[limits.thd.bands]]
+f_lo = 60
+f_hi = 200
+max_percent = 10.0           # placeholder: replace with a datasheet or project value
+[[limits.thd.bands]]
+f_lo = 200
+f_hi = 1000
+max_percent = 3.0            # placeholder
+
+[limits.snr]
+min_db = 40
+
+[limits.sanity]
+max_peak_dbfs = -3

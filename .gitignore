@@ -1,0 +1,13 @@
+.DS_Store
+__MACOSX/
+__pycache__/
+*.pyc
+*.egg-info/
+.venv/
+venv/
+*.zip
+*.wav
+Screenshot*
+results/
+rt60_edt_c80.csv
+eq_design_v1.csv

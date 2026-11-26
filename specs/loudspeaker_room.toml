@@ -1,0 +1,57 @@
+# Loudspeaker in Edit Suite A, uncalibrated mic: levels are RELATIVE to ref_hz.
+[sweep]
+f1 = 20
+f2 = 2000
+duration_s = 15
+fs = 48000
+level_dbfs = -12
+pre_s = 0.5
+tail_s = 1.5
+noise_s = 5.0
+
+[device]
+input = 2          # TASCAM US-16x08 Interface Index
+output = 2         # same index
+out_ch = 1         # one speaker; use probe to confirm which output
+in_ch = 1          # replace with your mic's input channel from probe
+
+[analysis]
+ir_window_s = 0.5
+smoothing_octave = 24
+max_harmonic = 5
+
+# ---- Limits for the Neumann KH 120 II (new room) ---------------------------------------
+# Manufacturer data (neumann.com, KH 120 II "Data & Diagrams", free field):
+#   +-3 dB: 44 Hz ... 21 kHz      +-6 dB: 41 Hz ... 21.4 kHz
+#   pass-band 48 Hz ... 20.5 kHz, +-1.25 dB
+#   sine output with THD < 0.5 % at 1 m, half space: 95 dB SPL (above 97 Hz)
+# These are free-field loudspeaker ratings, NOT in-room guarantees. The in-room allowances,
+# the THD limit below 97 Hz and the SNR limit are our own choices.
+[limits.frequency_response]
+mode = "relative"
+ref_hz = 300                 # mid-band reference inside our 20-1000 Hz sweep
+corner_db = 6                # datasheet gives a +-6 dB lower limit
+f_low_corner_max = 51        # datasheet 41 Hz + 10 Hz allowance for the room
+[[limits.frequency_response.bands]]
+f_lo = 48                    # lower edge of the datasheet pass band
+f_hi = 150
+tol_db = 6.0                 # the band the EQ is meant to fix
+[[limits.frequency_response.bands]]
+f_lo = 150
+f_hi = 500
+tol_db = 8.0                 # the EQ does not touch this band: informational
+
+[[limits.thd.bands]]
+f_lo = 60
+f_hi = 97
+max_percent = 5.0            # placeholder: no datasheet figure below 97 Hz
+[[limits.thd.bands]]
+f_lo = 100
+f_hi = 1000
+max_percent = 0.5            # datasheet: < 0.5 % at 95 dB SPL / 1 m. Valid only if our level is <= 95 dB SPL
+
+[limits.snr]
+min_db = 40
+
+[limits.sanity]
+max_peak_dbfs = -3
